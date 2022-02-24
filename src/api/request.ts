@@ -1,19 +1,19 @@
-import axios from 'axios'
+import axios, { Method } from 'axios'
 // 引入进度条
 // 将js文件解释为ts文件
 import 'nprogress/nprogress.css'
 import nprogress from 'nprogress';
 
-interface params {
-  type: {
-    type: string,
-    default: 'get'
-  }
+interface responseData {
+  code: number,
+  data: any,
+  message: string,
+  ok: boolean
 }
 
 interface AxiosRequest {
   url: string,
-  params?: params
+  params?: Object
 }
 
 interface AxiosReponse {
@@ -25,12 +25,13 @@ interface AxiosReponse {
   config: any;
 }
 
-export default function(option: AxiosRequest) {
-  return new Promise((resolve, reject) => {
+export default function(option: AxiosRequest, method: Method = 'get') {
+  return new Promise<responseData>((resolve, reject) => {
 
     const instance = axios.create({
       baseURL: 'http://39.98.123.211/api',
-      timeout: 5000
+      timeout: 5000,
+      method: method
     })
 
     instance.interceptors.request.use(config => {
@@ -61,7 +62,7 @@ export default function(option: AxiosRequest) {
     })
 
     instance(option).then((res: AxiosReponse) => {
-      resolve(res)
+      resolve(res.data)
     }).catch((err: any) => {
       reject(err)
     })
