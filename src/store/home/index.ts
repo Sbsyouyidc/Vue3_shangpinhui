@@ -14,7 +14,7 @@ const mutations = {
 }
 const actions = {
   // 通过接口函数发送请求，获取数据
-  async categoryList({commit}) {
+  async getCategoryList({commit}) {
     let res = await reqCategoryList()
     // console.log(res)
     if (res.code === 200) {

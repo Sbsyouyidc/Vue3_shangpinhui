@@ -76,11 +76,11 @@ function goSearch(): void {
   //   router.push(`/search/${keyword.value}` + `?k=${keyword.value.toUpperCase()}`)
   // }
   // 对象写法
-  if (keyword.value !== '') {
+  if (route.query) {
     router.push({
       name: 'Search',
       params: {keyword: keyword.value},
-      query: {k: keyword.value.toUpperCase()}
+      query: route.query
     })
   }
 }

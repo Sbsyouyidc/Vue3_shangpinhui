@@ -9,7 +9,7 @@ const routes: Array<RouteRecordRaw> = [
     meta: {show: true}
   },
   {
-    path: '/search/:keyword',
+    path: '/search/:keyword?',
     name: 'Search',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route

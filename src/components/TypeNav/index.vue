@@ -1,37 +1,57 @@
 <template>
 	<div class="type-nav">
 		<div class="container">
-			<div @mouseleave="leaveIndex">
+			<div @mouseleave="leaveHidden" @mouseenter="enterShow">
 				<h2 class="all">全部商品分类</h2>
-				<div class="sort">
-					<div class="all-sort-list2">
-						<div
-							class="item"
-							v-for="(c1, index1) in categoryList"
-							:key="c1.categoryId"
-							:class="{ cur: currentIndex === index1 }"
-						>
-							<h3 @mouseenter="changeIndex(index1)">
-								<a href="javascript:void;">{{ c1.categoryName }}</a>
-							</h3>
-							<!-- 二三级分类 -->
-							<div class="item-list clearfix" :style="{display: currentIndex===index1?'block':'none'}">
-								<div class="subitem" v-for="(c2, index2) in c1.categoryChild" :key="c2.categoryId">
-									<dl class="fore">
-										<dt>
-											<a href="javascript:void;">{{ c2.categoryName }}</a>
-										</dt>
-										<dd>
-											<em v-for="(c3, index) in c2.categoryChild" :key="c3.categoryId">
-												<a href="javascript:void;">{{ c3.categoryName }}</a>
-											</em>
-										</dd>
-									</dl>
+				<transition name="sort">
+					<div class="sort" v-show="isShow">
+						<div class="all-sort-list2" @click="goSearch">
+							<div
+								class="item"
+								v-for="(c1, index1) in categoryList"
+								:key="c1.categoryId"
+								:class="{ cur: currentIndex === index1 }"
+							>
+								<h3 @mouseenter="changeIndex(index1)">
+									<a 
+										href="javascript:;"
+										:data-categoryName="c1.categoryName"
+										:data-category1Id="c1.categoryId"
+									>
+										{{ c1.categoryName }}
+									</a>
+								</h3>
+								<!-- 二三级分类 -->
+								<div class="item-list clearfix" :style="{display: currentIndex===index1?'block':'none'}">
+									<div class="subitem" v-for="(c2, index2) in c1.categoryChild" :key="c2.categoryId">
+										<dl class="fore">
+											<dt>
+												<a
+													href="javascript:;" 
+													:data-categoryName="c2.categoryName"
+													:data-category2Id="c2.categoryId"
+												>
+													{{c2.categoryName}}
+												</a>
+											</dt>
+											<dd>
+												<em v-for="(c3, index3) in c2.categoryChild" :key="c3.categoryId">
+													<a 
+														href="javascript:;" 
+														:data-categoryName="c3.categoryName"
+														:data-category3Id="c3.categoryId"
+													>
+														{{ c3.categoryName }}
+													</a>
+												</em>
+											</dd>
+										</dl>
+									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-				</div>
+				</transition>
 			</div>
 			<nav class="nav">
 				<a href="###">服装城</a>
@@ -51,18 +71,29 @@
 import { computed, onMounted, ref } from 'vue';
 import { useStore } from 'vuex'
 import {throttle1, throttle2} from '@/utils/throttle'
+import { useRouter, useRoute } from 'vue-router';
 
 // 存储用户鼠标移上的一级分类index
 let currentIndex = ref(-1)
+// 控制一级菜单的显示与隐藏
+let isShow = ref(true)
+
+const store = useStore()
+
+// router
+const router = useRouter()
+const route = useRoute()
+
+// vuex
+const categoryList = computed<Array<any>>(() => store.state.home.categoryList)
 
 // 组件挂载完毕，发送请求
 onMounted(() => {
-	const store = useStore()
-	store.dispatch('categoryList')
+	// 组件在search页面重新挂载后改变显示和隐藏属性
+	if (route.path !== '/home') {
+		isShow.value = false
+	}
 })
-
-const store = useStore()
-const categoryList = computed<Array<any>>(() => store.state.home.categoryList)
 
 // 鼠标进入一级菜单修改index
 // function changeIndex(index: number): void {
@@ -73,16 +104,53 @@ const categoryList = computed<Array<any>>(() => store.state.home.categoryList)
 // }
 
 // 节流版changeIndex
-const changeIndex = throttle1((index: number) => {
+const changeIndex = throttle2((index: number) => {
 	currentIndex.value = index
-	console.log('节流')
 }, 50)
 
-//鼠标移出改变index
-function leaveIndex(): void {
-	currentIndex.value = -1
+// 进入菜单显示
+function enterShow(): void {
+	isShow.value = true
 }
 
+// 离开菜单隐藏
+function leaveHidden(): void {
+	currentIndex.value = -1
+	// 只有不在home页面才隐藏
+	if (route.path !== '/home') {
+		isShow.value = false
+	}
+}
+
+
+// 路由跳转的函数
+function goSearch(event: MouseEvent) {
+	// 编程式导航 + 事件委派
+	// 事件委派，是把全部的子节点的事件委派给父节点
+	// 分别添加date-categoryName
+	if (event !== null && event.target instanceof HTMLElement) {
+		let element = event.target
+		let {categoryname, category1id, category2id, category3id} = element.dataset
+		if (categoryname) {
+			// 整理路由跳转的参数
+			let location = {name: 'Search'}
+			let query = {categoryName: categoryname}
+			if (category1id) {
+				query['category1Id'] = category1id
+			} else if (category2id) {
+				query['category2Id'] = category2id
+			} else if (category3id) {
+				query['category3Id'] = category3id
+			}
+			location['query'] = query
+			if (route.params) {
+				location['params'] = route.params	
+				// 路由跳转
+				router.push(location)			
+			}
+		}
+	}
+}
 </script>
 
 <style lang="less" scoped>
