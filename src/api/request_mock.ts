@@ -11,6 +11,11 @@ interface responseData {
   ok: boolean
 }
 
+interface AxiosRequest {
+  url: string,
+  params?: Object
+}
+
 interface AxiosReponse {
   data: any;
   headers: any;
@@ -20,11 +25,11 @@ interface AxiosReponse {
   config: any;
 }
 
-export default function(option?: Object, method: Method = 'get') {
+export default function(option: AxiosRequest, method: Method = 'get') {
   return new Promise<responseData>((resolve, reject) => {
 
     const instance = axios.create({
-      baseURL: 'http://39.98.123.211/api',
+      baseURL: '/mock',
       timeout: 5000,
       method: method
     })
@@ -56,7 +61,7 @@ export default function(option?: Object, method: Method = 'get') {
       return err
     })
 
-    instance(option!).then((res: AxiosReponse) => {
+    instance(option).then((res: AxiosReponse) => {
       resolve(res.data)
     }).catch((err: any) => {
       reject(err)
