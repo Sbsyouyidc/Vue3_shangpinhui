@@ -58,12 +58,14 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref, getCurrentInstance } from 'vue'
 import { useRoute, useRouter } from 'vue-router';
 
 // 引入路由
 const router = useRouter()
 const route = useRoute()
+
+const emitter = getCurrentInstance()?.appContext.config.globalProperties.emitter
 
 // 搜索框内的关键字
 const keyword = ref<string>('')
@@ -84,6 +86,11 @@ function goSearch(): void {
     })
   }
 }
+
+// 监听Search中的事件，清除input框的值
+emitter.on('clearInput', () => {
+  keyword.value = ''
+})
 
 </script>
 

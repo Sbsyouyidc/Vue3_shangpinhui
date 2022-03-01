@@ -106,7 +106,7 @@ onMounted(() => {
 // 节流版changeIndex
 const changeIndex = throttle2((index: number) => {
 	currentIndex.value = index
-}, 50)
+}, 30)
 
 // 进入菜单显示
 function enterShow(): void {

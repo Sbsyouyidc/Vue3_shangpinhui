@@ -1,10 +1,5 @@
 import { reqCategoryList, reqFloorList, reqGetBannerList } from "@/api"
-
-interface State {
-  categoryList: Array<any>,
-  bannerList: Array<any>,
-  floorList: Array<any>
-}
+import {State, Category, Banner} from './types'
 
 const state: State = {
   categoryList: [],
@@ -13,10 +8,10 @@ const state: State = {
 }
 // mutation是唯一修改state的地方
 const mutations = {
-  CATEGORYLIST(state: State, categoryList: Array<any>) {
+  CATEGORYLIST(state: State, categoryList: Array<Category>) {
     state.categoryList = categoryList
   },
-  BANNERLIST(state: State, bannerList: Array<any>) {
+  BANNERLIST(state: State, bannerList: Array<Banner>) {
     state.bannerList = bannerList
   },
   FLOORLIST(state: State,floorList: Array<any>) {
