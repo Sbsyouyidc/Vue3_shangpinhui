@@ -41,24 +41,21 @@
         <div class="details clearfix">
           <div class="sui-navbar">
             <div class="navbar-inner filter">
+              <!-- 排序结构 -->
               <ul class="sui-nav">
-                <li class="active">
-                  <a href="#">综合</a>
+                <li :class="{active: oneOrTwo==='1'}" @click="changeOrder('1')">
+                  <a href="javascript:;">
+                    综合
+                   <img src="./images/arrow-down.png" alt="" v-show="oneOrTwo=='1'&&ascOrDesc=='desc'">
+                   <img src="./images/arrow-up.png" alt="" v-show="oneOrTwo=='1'&&ascOrDesc=='asc'">
+                  </a>
                 </li>
-                <li>
-                  <a href="#">销量</a>
-                </li>
-                <li>
-                  <a href="#">新品</a>
-                </li>
-                <li>
-                  <a href="#">评价</a>
-                </li>
-                <li>
-                  <a href="#">价格⬆</a>
-                </li>
-                <li>
-                  <a href="#">价格⬇</a>
+                <li :class="{active: oneOrTwo==='2'}" @click="changeOrder('2')">
+                  <a href="javascript:;">
+                    价格
+                    <img src="./images/arrow-down.png" alt="" v-show="oneOrTwo=='2'&&ascOrDesc=='desc'">
+                    <img src="./images/arrow-up.png" alt="" v-show="oneOrTwo=='2'&&ascOrDesc=='asc'">
+                  </a>
                 </li>
               </ul>
             </div>
@@ -92,35 +89,7 @@
               </li>
             </ul>
           </div>
-          <div class="fr page">
-            <div class="sui-pagination clearfix">
-              <ul>
-                <li class="prev disabled">
-                  <a href="#">«上一页</a>
-                </li>
-                <li class="active">
-                  <a href="#">1</a>
-                </li>
-                <li>
-                  <a href="#">2</a>
-                </li>
-                <li>
-                  <a href="#">3</a>
-                </li>
-                <li>
-                  <a href="#">4</a>
-                </li>
-                <li>
-                  <a href="#">5</a>
-                </li>
-                <li class="dotted"><span>...</span></li>
-                <li class="next">
-                  <a href="#">下一页»</a>
-                </li>
-              </ul>
-              <div><span>共10页&nbsp;</span></div>
-            </div>
-          </div>
+          <Pagination/>
         </div>
       </div>
     </div>
@@ -160,8 +129,8 @@ let searchParams = reactive<listParams>({
   props: [],
   // 品牌
   trademark: "",
-  // 排序
-  order: "",
+  // 排序,初始状态为综合|降序
+  order: "2:desc",
   // 分页器，代表当前页码
   pageNo: 1,
   // 每一页的商品数量
@@ -256,6 +225,25 @@ function removeAttr(index: number) {
   getData()
 }
 
+// 排序操作
+function changeOrder(flag: string) {
+  // flag形参，代表用户点击的是综合还是价格
+  // 点击的和原先的分类一样
+  if (flag === oneOrTwo.value) {
+    // 只修改升序或者降序
+    let newOrder = `${flag}:${ascOrDesc.value==='asc'?'desc':'asc'}`
+    // 重新赋值发送请求
+    searchParams.order = newOrder
+    getData()
+  } else {
+    // 点击的分类与原先不一样，修改分类，默认降序
+    let newOrder = `${flag==='1'?'1':'2'}:desc`
+    // 重新赋值发送请求
+    searchParams.order = newOrder
+    getData()
+  }
+}
+
 // 使用watch监听属性变化来发送请求
 watch(route, (newValue, oldValue) => {
   // 再次对数据进行整理并发送请求
@@ -263,6 +251,16 @@ watch(route, (newValue, oldValue) => {
   getData()
   // 每次请求完毕后将参数置空
   resetParams()
+})
+
+// 判断是什么排序方式的计算属性
+const oneOrTwo = computed(() => {
+  return searchParams.order?.split(':')[0]
+})
+
+// 判断升序还是降序
+const ascOrDesc = computed(() => {
+  return searchParams.order?.split(':')[1]
 })
 
 </script>

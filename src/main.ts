@@ -3,6 +3,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import TypeNav from '@/components/TypeNav/index'
+import Pagination from '@/components/Pagination/index'
 // 引入mockServe.js
 import '@/mock/mockServe.js'
 import "swiper/swiper-bundle.min.css"
@@ -16,6 +17,6 @@ const app = createApp(App)
 app.config.globalProperties.emitter = emitter
 
 // 全局组件
-app.use(TypeNav)
+app.use(TypeNav).use(Pagination)
 
 app.use(store).use(router).mount('#app')
