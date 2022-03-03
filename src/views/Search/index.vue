@@ -89,7 +89,13 @@
               </li>
             </ul>
           </div>
-          <Pagination/>
+          <Pagination 
+            :pageNo="searchParams.pageNo" 
+            :pageSize="searchParams.pageSize" 
+            :total="total" 
+            :continues="5"
+            @getPageNo="getPageNo"
+          />
         </div>
       </div>
     </div>
@@ -156,6 +162,9 @@ onMounted(() => {
   // 在发送请求之前带给服务器参数，searchParams参数发生变化时带给服务器
   getData()
 })
+
+// 获取产品总数
+const total = computed<number>(() => store.state.search.searchList.total)
 
 const goodsList = computed<Good[]>(
   mapGetters(['goodsList']).goodsList.bind({$store: store})
@@ -242,6 +251,13 @@ function changeOrder(flag: string) {
     searchParams.order = newOrder
     getData()
   }
+}
+
+// 获取当前第几页的自定义方法
+function getPageNo(pageNo: number) {
+  // 整理参数
+  searchParams.pageNo = pageNo
+  getData()
 }
 
 // 使用watch监听属性变化来发送请求

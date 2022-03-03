@@ -2,7 +2,9 @@ import { reqGetSearchInfo } from "@/api/index"
 import {State, SearchList, listParams} from './types'
 
 const state: State = {
-  searchList: {}
+  searchList: {
+    total: 0
+  }
 }
 const mutations = {
   SEARCHLIST(state: State, searchList: SearchList) {
