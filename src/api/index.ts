@@ -27,3 +27,10 @@ export function reqGetSearchInfo(data: Object = {}) {
     data
   }, 'post')
 }
+
+// 详情接口
+export function reqGoodDetail(skuId: string) {
+  return request({
+    url: `/item/${skuId}`
+  })
+}
