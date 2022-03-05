@@ -3,16 +3,6 @@
     <div class="sortList clearfix">
       <div class="center">
         <!--banner轮播-->
-        <!-- <div class="swiper" ref="swiper">
-          <div class="swiper-wrapper">
-            <div class="swiper-slide" v-for="(carousel) in bannerList" :key="carousel.id">
-              <img :src="carousel.imgUrl" alt="" />
-            </div>
-          </div>
-          <div class="swiper-pagination"></div>
-          <div class="swiper-button-prev"></div>
-          <div class="swiper-button-next"></div>
-        </div> -->
         <swiper
           :modules="modules"
           :slides-per-view="1"
@@ -40,71 +30,15 @@
           </h4>
           <div class="clearix"></div>
           <ul class="news-list unstyled">
-            <li>
-              <span class="bold">[特惠]</span>备战开学季 全民半价购数码
-            </li>
-            <li>
-              <span class="bold">[公告]</span>备战开学季 全民半价购数码
-            </li>
-            <li>
-              <span class="bold">[特惠]</span>备战开学季 全民半价购数码
-            </li>
-            <li>
-              <span class="bold">[公告]</span>备战开学季 全民半价购数码
-            </li>
-            <li>
-              <span class="bold">[特惠]</span>备战开学季 全民半价购数码
+            <li v-for="(text, index) in text2" :key="index">
+              <span class="bold">[{{text}}]</span>备战开学季 全民半价购数码
             </li>
           </ul>
         </div>
         <ul class="lifeservices">
-          <li class="life-item">
+          <li class="life-item" v-for="(item, index) in text1" :key="index">
             <i class="list-item"></i>
-            <span class="service-intro">话费</span>
-          </li>
-          <li class="life-item">
-            <i class="list-item"></i>
-            <span class="service-intro">机票</span>
-          </li>
-          <li class="life-item">
-            <i class="list-item"></i>
-            <span class="service-intro">电影票</span>
-          </li>
-          <li class="life-item">
-            <i class="list-item"></i>
-            <span class="service-intro">游戏</span>
-          </li>
-          <li class="life-item">
-            <i class="list-item"></i>
-            <span class="service-intro">彩票</span>
-          </li>
-          <li class="life-item">
-            <i class="list-item"></i>
-            <span class="service-intro">加油站</span>
-          </li>
-          <li class="life-item">
-            <i class="list-item"></i>
-            <span class="service-intro">酒店</span>
-          </li>
-          <li class="life-item">
-            <i class="list-item"></i>
-            <span class="service-intro">火车票</span>
-          </li>
-          <li class="life-item">
-            <i class="list-item"></i>
-            <span class="service-intro">众筹</span>
-          </li>
-          <li class="life-item">
-            <i class="list-item"></i>
-            <span class="service-intro">理财</span>
-          </li>
-          <li class="life-item">
-            <i class="list-item"></i>
-            <span class="service-intro">礼品卡</span>
-          </li>
-          <li class="life-item">
-            <i class="list-item"></i>
-            <span class="service-intro">白条</span>
+            <span class="service-intro">{{item}}</span>
           </li>
         </ul>
         <div class="ads">
@@ -133,6 +67,9 @@ onMounted(async () => {
 })
 
 const modules = [Navigation, Pagination, A11y, Autoplay]
+
+const text1 = ['话费','机票','电影票','游戏','彩票','加油站','酒店','火车票','众筹','理财','礼品卡','白条']
+const text2 = ['特惠', '公告', '特惠', '公告', '特惠']
 
 //#region 
 // const swiperParams: typeof SwiperOptions = {

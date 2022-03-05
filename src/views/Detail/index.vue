@@ -6,31 +6,31 @@
     <!-- 主要内容区域 -->
     <section class="con">
       <!-- 导航路径区域 -->
-      <!-- <div class="conPoin">
-        <span v-show="categoryView.category1Name">{{
-          categoryView.category1Name
-        }}</span>
-        <span v-show="categoryView.category2Name">{{
-          categoryView.category2Name
-        }}</span>
-        <span v-show="categoryView.category3Name">{{
-          categoryView.category3Name
-        }}</span>
-      </div> -->
+      <div class="conPoin">
+        <span v-show="categoryView.category1Name">
+          {{categoryView.category1Name}}
+        </span>
+        <span v-show="categoryView.category2Name">
+          {{categoryView.category2Name}}
+        </span>
+        <span v-show="categoryView.category3Name">
+          {{categoryView.category3Name}}
+        </span>
+      </div>
       <!-- 主要内容区域 -->
       <div class="mainCon">
         <!-- 左侧放大镜区域 -->
         <div class="previewWrap">
           <!--放大镜效果-->
-          <!-- <Zoom :skuImageList="skuImageList" /> -->
+          <Zoom :skuImageList="getSkuInfo" />
           <!-- 小图列表 -->
-          <!-- <ImageList :skuImageList="skuImageList" /> -->
+          <ImageList :skuImageList="getSkuInfo" :currentIndex="currentIndex"/>
         </div>
         <!-- 右侧选择区域布局 -->
         <div class="InfoWrap">
           <div class="goodsDetail">
-            <!-- <h3 class="InfoName">{{ skuInfo.skuName }}</h3>
-            <p class="news">{{ skuInfo.skuDesc }}</p> -->
+            <h3 class="InfoName">{{ skuInfo.skuName }}</h3>
+            <p class="news">{{ skuInfo.skuDesc }}</p>
             <div class="priceArea">
               <div class="priceArea1">
                 <div class="title">
@@ -38,7 +38,7 @@
                 </div>
                 <div class="price">
                   <i>¥</i>
-                  <!-- <em>{{ skuInfo.price }}</em> -->
+                  <em>{{ skuInfo.price }}</em>
                   <span>降价通知</span>
                 </div>
                 <div class="remark">
@@ -77,7 +77,7 @@
           <div class="choose">
             <div class="chooseArea">
               <div class="choosed"></div>
-              <!-- <dl
+              <dl
                 v-for="(spuSaleAttr, index) in spuSaleAttrList"
                 :key="spuSaleAttr.id"
               >
@@ -85,23 +85,20 @@
                 <dd
                   changepirce="0"
                   :class="{ active: spuSaleAttrValue.isChecked == 1 }"
-                  v-for="(spuSaleAttrValue,
-                  index) in spuSaleAttr.spuSaleAttrValueList"
+                  v-for="(spuSaleAttrValue,index) in spuSaleAttr.spuSaleAttrValueList"
                   :key="spuSaleAttrValue.id"
-                  @click=""
+                  @click="changeActive(spuSaleAttrValue, spuSaleAttr.spuSaleAttrValueList)"
                 >
                   {{ spuSaleAttrValue.saleAttrValueName }}
                 </dd>
-              </dl> -->
+              </dl>
             </div>
             <div class="cartWrap">
               <div class="controls">
-                <!-- <input
+                <input
                   autocomplete="off"
                   class="itxt"
-                  v-model=""
-                  @change=""
-                /> -->
+                />
                 <a href="javascript:" class="plus" @click="">+</a>
                 <a
                   href="javascript:"
@@ -365,18 +362,43 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
-import { useStore } from "vuex";
+import { mapGetters, useStore } from "vuex";
 import ImageList from "./ImageList/ImageList.vue";
 import Zoom from "./Zoom/Zoom.vue";
+import { CategoryView, SkuInfo, SpuSaleAttrValue } from '../../store/detail/types';
 
 const store = useStore()
 const route = useRoute()
 
+const currentIndex = ref(0)
+
 onMounted(() => {
   store.dispatch('getGoodDetail', route.params.skuId)
 })
+
+// const categoryView = computed<CategoryView>(
+//   mapGetters(['categoryView']).categoryView.bind({$store: store})
+// )
+// const storeState = computed(
+//   mapGetters(['skuInfo']).skuInfo.bind({$store: store})
+// )
+
+const categoryView = computed<CategoryView>(() => store.getters.categoryView)
+const skuInfo = computed<SkuInfo>(() => store.getters.skuInfo)
+
+const getSkuInfo = computed(() => skuInfo.value.skuImageList || [] )
+
+const spuSaleAttrList = computed(() => store.getters.spuSaleAttrList)
+
+function changeActive(a: SpuSaleAttrValue, b: Array<SpuSaleAttrValue>) {
+  // 修改售卖属性值, 取消高亮
+  b.forEach(item => {
+    item.isChecked = '0'
+  })
+  a.isChecked = '1'
+}
 
 </script>
 

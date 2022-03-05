@@ -23,7 +23,15 @@ const actions = {
 }
 
 const getters = {
-
+  categoryView(state: State) {
+    return state.goodDetail.categoryView || {}
+  },
+  skuInfo(state: State) {
+    return state.goodDetail.skuInfo || {}
+  },
+  spuSaleAttrList(state: State) {
+    return state.goodDetail.spuSaleAttrList || []
+  }
 }
 
 export default {
