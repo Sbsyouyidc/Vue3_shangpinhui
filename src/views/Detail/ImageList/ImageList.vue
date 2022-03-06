@@ -1,20 +1,30 @@
 <template>
   <swiper
-    class="swiper-container"
+    class="swiper"
     :modules="modules"
     :slides-per-view="3"
+    :slides-per-group="1"
     :space-between="50"
     :speed="500"
     navigation
   >
-    <swiper-slide class="swiper-slide">
-      <img :src="currentImage" alt="">
+    <swiper-slide 
+      class="swiper-slide" 
+      v-for="(skuImage, index) in skuImageList" 
+      :key="skuImage.id"
+    >
+      <img 
+        :src="skuImage.imgUrl" 
+        alt="" 
+        :class="{active: currentIndex===index}"
+        @click="changeCurrentIndex(index)"
+      >
     </swiper-slide>
   </swiper>
 </template>
 
 <script lang="ts" setup>
-import { defineProps, computed } from 'vue';
+import { defineProps, computed, ref, getCurrentInstance } from 'vue';
 import { Navigation, A11y } from 'swiper'
 import {Swiper, SwiperSlide} from 'swiper/vue/swiper-vue.js'
 // import "swiper/swiper-bundle.min.css"
@@ -22,20 +32,24 @@ import { SkuImage } from '@/store/detail/types';
 
 const modules = [Navigation, A11y]
 
+const emitter = getCurrentInstance()?.appContext.config.globalProperties.emitter
+
+// 默认选中的图片
+let currentIndex = ref(0)
+
 const props = defineProps<{
   skuImageList: Array<SkuImage>,
-  currentIndex: number
 }>()
 
-let currentImage = computed(() => {
-  return props.skuImageList[props.currentIndex]?.imgUrl || ''
-})
-
+function changeCurrentIndex(index: number) {
+  currentIndex.value = index
+  emitter.emit('currentIndex', index)
+}
 
 </script>
 
 <style lang="less" scoped>
-.swiper-container {
+.swiper {
   height: 56px;
   width: 412px;
   box-sizing: border-box;
@@ -53,6 +67,7 @@ let currentImage = computed(() => {
       width: 50px;
       height: 50px;
       display: block;
+      cursor: pointer;
 
       &.active {
         border: 2px solid #f60;
@@ -61,18 +76,20 @@ let currentImage = computed(() => {
     }
   }
 
-  .swiper-button-next {
+  // 使用/deep/来对less scoped 进行穿透
+
+  /deep/.swiper-button-next {
     left: auto;
-    right: 0;
+    right: 10px;
   }
 
-  .swiper-button-prev {
+  /deep/.swiper-button-prev {
     left: 0;
     right: auto;
   }
 
-  .swiper-button-next,
-  .swiper-button-prev {
+  /deep/.swiper-button-next,
+  /deep/.swiper-button-prev {
     box-sizing: border-box;
     width: 12px;
     height: 56px;

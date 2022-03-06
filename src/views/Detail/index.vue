@@ -24,7 +24,7 @@
           <!--放大镜效果-->
           <Zoom :skuImageList="getSkuInfo" />
           <!-- 小图列表 -->
-          <ImageList :skuImageList="getSkuInfo" :currentIndex="currentIndex"/>
+          <ImageList :skuImageList="getSkuInfo"/>
         </div>
         <!-- 右侧选择区域布局 -->
         <div class="InfoWrap">
@@ -53,8 +53,8 @@
                 <div class="fixWidth">
                   <i class="red-bg">加价购</i>
                   <em class="t-gray"
-                    >满999.00另加20.00元，或满1999.00另加30.00元，或满2999.00另加40.00元，即可在购物车换购热销商品</em
-                  >
+                    >满999.00另加20.00元，或满1999.00另加30.00元，或满2999.00另加40.00元，即可在购物车换购热销商品
+                  </em>
                 </div>
               </div>
             </div>
@@ -95,23 +95,15 @@
             </div>
             <div class="cartWrap">
               <div class="controls">
-                <input
-                  autocomplete="off"
-                  class="itxt"
-                />
-                <a href="javascript:" class="plus" @click="">+</a>
-                <a
-                  href="javascript:"
-                  class="mins"
-                  @click=""
-                  >-</a
-                >
+                <input autocomplete="off" class="itxt" v-model="skuNum" @change="changeSkuNum"/>
+                <a href="javascript:" class="plus" @click="skuNum++">+</a>
+                <a href="javascript:" class="mins" @click="skuNum>1?skuNum--:1">-</a>
               </div>
               <div class="add">
                 <!-- 以前咱们的路由跳转：从A路由跳转到B路由，这里在加入购物车，进行路由跳转之前，发请求
                     把你购买的产品的信息通过请求的形式通知服务器，服务器进行相应的存储
                   -->
-                <a>加入购物车</a>
+                <a @click="addToCart">加入购物车</a>
               </div>
             </div>
           </div>
@@ -363,7 +355,7 @@
 
 <script lang="ts" setup>
 import { computed, onMounted, ref } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { mapGetters, useStore } from "vuex";
 import ImageList from "./ImageList/ImageList.vue";
 import Zoom from "./Zoom/Zoom.vue";
@@ -371,8 +363,9 @@ import { CategoryView, SkuInfo, SpuSaleAttrValue } from '../../store/detail/type
 
 const store = useStore()
 const route = useRoute()
+const router = useRouter()
 
-const currentIndex = ref(0)
+let skuNum = ref(1)
 
 onMounted(() => {
   store.dispatch('getGoodDetail', route.params.skuId)
@@ -386,6 +379,7 @@ onMounted(() => {
 // )
 
 const categoryView = computed<CategoryView>(() => store.getters.categoryView)
+
 const skuInfo = computed<SkuInfo>(() => store.getters.skuInfo)
 
 const getSkuInfo = computed(() => skuInfo.value.skuImageList || [] )
@@ -398,6 +392,27 @@ function changeActive(a: SpuSaleAttrValue, b: Array<SpuSaleAttrValue>) {
     item.isChecked = '0'
   })
   a.isChecked = '1'
+}
+
+function changeSkuNum(evt: Event) {
+  let value = evt.target!['value'] * 1
+  if (isNaN(value) || value < 1) {
+    skuNum.value = 1
+  } else {
+    skuNum.value = Math.floor(value)
+  }
+}
+
+// 添加至购物车方法
+async function addToCart() {
+  // 派发一个action，也向服务器发送请求，判断加入购物车是成功了还是失败了，进行相应操作，返回值是一个Promise对象
+  try {
+    await store.dispatch('addOrUpdateCart', {skuId: route.params.skuId, skuNum: skuNum.value})
+    // 成功后进行性路由的跳转
+    router.push({name: 'AddCartSuccess', query: {skuNum: skuNum.value}})
+  } catch (error) {
+
+  } 
 }
 
 </script>

@@ -1,4 +1,4 @@
-import { reqGoodDetail } from "@/api";
+import { reqGoodDetail, reqAddOrUpdateCart } from "@/api";
 import {State, CategoryView, GoodDetail} from './types'
 
 const state: State = {
@@ -8,16 +8,22 @@ const state: State = {
 const mutations = {
   GOODDETAIL(state: State, goodDetail: GoodDetail) {
     state.goodDetail = goodDetail
-  }
+  },
 }
 
 const actions = {
   async getGoodDetail({commit}, skuId: string) {
-    console.log(skuId)
     let res = await reqGoodDetail(skuId)
-    console.log(res)
     if (res.code === 200) {
       commit('GOODDETAIL', res.data)
+    }
+  },
+  async addOrUpdateCart({commit}, {skuId, skuNum}) {
+    let res = await reqAddOrUpdateCart(skuId, skuNum)
+    if (res.code === 200) {
+      return 1
+    } else {
+      return Promise.reject(new Error('failed'))
     }
   }
 }

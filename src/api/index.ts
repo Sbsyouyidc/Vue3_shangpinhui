@@ -34,3 +34,10 @@ export function reqGoodDetail(skuId: string) {
     url: `/item/${skuId}`
   })
 }
+
+// 将产品添加到购物车中，或者更新某个产品的个数
+export function reqAddOrUpdateCart(skuId: string, skuNum: number) {
+  return request({
+    url: `/cart/addToCart/${skuId}/${skuNum}`
+  }, 'post')
+}

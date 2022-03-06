@@ -36,6 +36,12 @@ export default [
 
   },
   {
+    path: '/addCartSuccess',
+    name: 'AddCartSuccess',
+    component: () => import(/* webpackChunkNane: cart */ '@/views/AddCartSuccess/index.vue'),
+    meta: {show: false}
+  },
+  {
     path: '/',
     redirect: '/home'
   }
