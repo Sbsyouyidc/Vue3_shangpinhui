@@ -3,6 +3,7 @@ import axios, { Method } from 'axios'
 // 将js文件解释为ts文件
 import 'nprogress/nprogress.css'
 import nprogress from 'nprogress';
+import store from '@/store'
 
 interface responseData {
   code: number,
@@ -30,6 +31,11 @@ export default function(option?: Object, method: Method = 'get') {
     })
 
     instance.interceptors.request.use(config => {
+      // console.log(store.state['detail'].uuid_token)
+      if (store.state['detail'].uuid_token) {
+        // 请求头添加一个字段userTempId
+        config.headers!.userTempId = store.state['detail'].uuid_token
+      }
       nprogress.start()
       return config
     }, err => {

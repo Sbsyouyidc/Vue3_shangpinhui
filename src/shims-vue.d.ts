@@ -8,3 +8,4 @@ declare module '*.vue' {
 declare module 'nprogress'
 declare module 'mockjs'
 declare module 'swiper'
+declare module 'uuid'

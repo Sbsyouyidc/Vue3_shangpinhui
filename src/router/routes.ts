@@ -38,7 +38,13 @@ export default [
   {
     path: '/addCartSuccess',
     name: 'AddCartSuccess',
-    component: () => import(/* webpackChunkNane: cart */ '@/views/AddCartSuccess/index.vue'),
+    component: () => import(/* webpackChunkNane: addCartSuccess */ '@/views/AddCartSuccess/index.vue'),
+    meta: {show: false}
+  },
+  {
+    path: '/cart',
+    name: 'Cart',
+    component: () => import(/* webpackChunkName: cart */ '@/views/Cart/index.vue'),
     meta: {show: false}
   },
   {

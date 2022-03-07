@@ -41,3 +41,10 @@ export function reqAddOrUpdateCart(skuId: string, skuNum: number) {
     url: `/cart/addToCart/${skuId}/${skuNum}`
   }, 'post')
 }
+
+// 获取购物车列表接口
+export function reqCartList() {
+  return request({
+    url: '/car/cartList'
+  })
+}

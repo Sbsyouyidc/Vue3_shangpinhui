@@ -10,6 +10,7 @@ export interface CategoryView {
 
 export interface State {
   goodDetail: GoodDetail,
+  uuid_token: string
 }
 
 export interface GoodDetail {

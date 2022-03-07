@@ -1,8 +1,10 @@
 import { reqGoodDetail, reqAddOrUpdateCart } from "@/api";
 import {State, CategoryView, GoodDetail} from './types'
+import {getUUID} from '@/utils/uuid_token'
 
 const state: State = {
-  goodDetail: {}
+  goodDetail: {},
+  uuid_token: getUUID()!
 }
 
 const mutations = {

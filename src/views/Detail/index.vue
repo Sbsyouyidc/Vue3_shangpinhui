@@ -409,9 +409,10 @@ async function addToCart() {
   try {
     await store.dispatch('addOrUpdateCart', {skuId: route.params.skuId, skuNum: skuNum.value})
     // 成功后进行性路由的跳转
+    sessionStorage.setItem('SKUINFO', JSON.stringify(skuInfo.value))
     router.push({name: 'AddCartSuccess', query: {skuNum: skuNum.value}})
   } catch (error) {
-
+    console.log(error)
   } 
 }
 

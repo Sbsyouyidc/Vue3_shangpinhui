@@ -2,6 +2,7 @@ import { createStore } from 'vuex'
 import home from './home'
 import search from './search'
 import detail from './detail'
+import cart from './cart'
 
 export default createStore({
   state: {
@@ -16,6 +17,7 @@ export default createStore({
   modules: {
     home,
     search,
-    detail
+    detail,
+    cart
   }
 })
