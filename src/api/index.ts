@@ -36,7 +36,7 @@ export function reqGoodDetail(skuId: string) {
 }
 
 // 将产品添加到购物车中，或者更新某个产品的个数
-export function reqAddOrUpdateCart(skuId: string, skuNum: number) {
+export function reqAddOrUpdateCart(skuId: string, skuNum: string) {
   return request({
     url: `/cart/addToCart/${skuId}/${skuNum}`
   }, 'post')
@@ -45,6 +45,20 @@ export function reqAddOrUpdateCart(skuId: string, skuNum: number) {
 // 获取购物车列表接口
 export function reqCartList() {
   return request({
-    url: '/car/cartList'
+    url: '/cart/cartList'
+  })
+}
+
+// 删除购物车产品接口
+export function reqDeleteCartById(skuId: string) {
+  return request({
+    url: `/cart/deleteCart/${skuId}`
+  }, 'delete')
+}
+
+// 更新选中状态
+export function reqUpdateCheckedById(skuId: string, isChecked: boolean) {
+  return request({
+    url: `/cart/checkCart/${skuId}/${isChecked}`
   })
 }
