@@ -1,11 +1,74 @@
 <template>
-  <h2>Login</h2>
+  <div class="login-container">
+    <!-- 登录 -->
+    <div class="login-wrap">
+      <div class="login">
+        <div class="loginform">
+          <ul class="tab clearFix">
+            <li>
+              <a href="##" style="border-right: 0;">扫描登录</a>
+            </li>
+            <li>
+              <a href="##" class="current">账户登录</a>
+            </li>
+          </ul>
+
+          <div class="content">
+            <form action="##">
+              <div class="input-text clearFix">
+                <span></span>
+                <input type="text" placeholder="邮箱/用户名/手机号">
+              </div>
+              <div class="input-text clearFix">
+                <span class="pwd"></span>
+                <input type="text" placeholder="请输入密码">
+              </div>
+              <div class="setting clearFix">
+                <label class="checkbox inline">
+                  <input name="m1" type="checkbox" value="2">
+                  自动登录
+                </label>
+                <span class="forget">忘记密码？</span>
+              </div>
+              <button class="btn">登&nbsp;&nbsp;录</button>
+            </form>
+
+            <div class="call clearFix">
+              <ul>
+                <li><img src="./images/qq.png" alt=""></li>
+                <li><img src="./images/sina.png" alt=""></li>
+                <li><img src="./images/ali.png" alt=""></li>
+                <li><img src="./images/weixin.png" alt=""></li>
+              </ul>
+              <router-link class="register" to="/register">立即注册</router-link>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 底部 -->
+    <div class="copyright">
+      <ul>
+        <li>关于我们</li>
+        <li>联系我们</li>
+        <li>联系客服</li>
+        <li>商家入驻</li>
+        <li>营销中心</li>
+        <li>手机尚品汇</li>
+        <li>销售联盟</li>
+        <li>尚品汇社区</li>
+      </ul>
+      <div class="address">地址：北京市昌平区宏福科技园综合楼6层</div>
+      <div class="beian">京ICP备19006430号
+      </div>
+    </div>
+  </div>
 </template>
 
 <script lang="ts" setup>
 
 </script>
 
-<style lang="" scoped>
-
+<style lang="less" scoped>
+@import url('./index.less');
 </style>

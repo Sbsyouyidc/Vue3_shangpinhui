@@ -50,7 +50,7 @@
     </div>
     <div class="cart-tool">
       <div class="select-all">
-        <input class="chooseAll" type="checkbox" :checked="checkAll">
+        <input class="chooseAll" type="checkbox" :checked="checkAll" @change="changeCheckAll($event)">
         <span>全选</span>
       </div>
       <div class="option">
@@ -131,18 +131,18 @@ async function updateChecked(skuId: number, event:any) {
 }
 
 // 全选/全部选状态修改
-// function changeCheckAll(event: any) {
-//   let isCheckedAll = event.target.checked ? '1' : '0';
-//   (cartInfoList.value as CartInfo[]).forEach(async (item: CartInfo) => {
-//     try {
-//       await store.dispatch('updateCheckedById', {skuId: item.skuId, isCheckedAll})
-//     } catch (error) {
-//       console.log(error)
-//     }
-//   }); 
-
-//   getData()
-// }
+async function changeCheckAll(event: any) {
+  try {
+    let isCheckedAll = event.target.checked ? '1' : '0';
+    // 派发action
+    await store.dispatch('updateCheckAll', isCheckedAll)
+    // 获取数据
+    getData()
+  } catch (error) {
+    getData()
+    console.log(error)
+  }
+}
 
 // 删除选中的商品
 async function deleteAllChecked() {

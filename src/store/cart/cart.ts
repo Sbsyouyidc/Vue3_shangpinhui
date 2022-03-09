@@ -31,8 +31,9 @@ const actions = {
   // 修改列表数据
   async updateCheckedById({commit}, {skuId, isChecked}) {
     let res = await reqUpdateCheckedById(skuId, isChecked)
-    if (res.code === 200) 
+    if (res.code === 200) {
       return 'updated'
+    }
     else {
       return Promise.reject(new Error('update failed'))
     }
@@ -48,6 +49,15 @@ const actions = {
       promiseAll.push(promise)
     })
     // 全部Promise都成功，返回为成功
+    return Promise.all(promiseAll)
+  },
+  // 修改全选状态
+  updateCheckAll({dispatch, state, commit}, isCheckedAll: string) {
+    let promiseAll: any[] = []
+    state.cartList[0].cartInfoList.forEach((item: CartInfo) => {
+      let promise = dispatch('updateCheckedById', {skuId: item.skuId, isChecked: isCheckedAll})
+      promiseAll.push(promise)
+    })
     return Promise.all(promiseAll)
   }
 }

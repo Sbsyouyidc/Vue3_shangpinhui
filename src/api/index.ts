@@ -62,3 +62,22 @@ export function reqUpdateCheckedById(skuId: string, isChecked: boolean) {
     url: `/cart/checkCart/${skuId}/${isChecked}`
   })
 }
+
+// 获取验证码
+export function reqGetCode(phone: string) {
+  return request({
+    url: `user/passport/sendCode/${phone}`
+  })
+}
+
+// 注册
+export function reqRegister(phone: string, code: string, password: string) {
+  return request({
+    url: '/user/passport/register',
+    data: {
+      phone,
+      code,
+      password
+    }
+  }, 'post')
+}

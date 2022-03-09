@@ -48,6 +48,18 @@ export default [
     meta: {show: false}
   },
   {
+    path: '/login',
+    name: 'Login',
+    component: () => import(/* webpackChunkName: login */ '@/views/Login/index.vue'),
+    meta: {show: false}
+  },
+  {
+    path: '/register',
+    name: 'Register',
+    component: () => import(/* webpackChunkName: regiter */ '@/views/Register/index.vue'),
+    meta: {show: false}
+  },
+  {
     path: '/',
     redirect: '/home'
   }

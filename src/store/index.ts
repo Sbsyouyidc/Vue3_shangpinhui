@@ -1,8 +1,10 @@
 import { createStore } from 'vuex'
-import home from './home'
-import search from './search'
-import detail from './detail'
-import cart from './cart'
+import home from './home/home'
+import search from './search/search'
+import detail from './detail/detail'
+import cart from './cart/cart'
+import user from './user/user'
+
 
 export default createStore({
   state: {
@@ -18,6 +20,7 @@ export default createStore({
     home,
     search,
     detail,
-    cart
+    cart,
+    user
   }
 })
