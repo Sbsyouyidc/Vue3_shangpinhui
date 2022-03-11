@@ -6,16 +6,16 @@
         <div class="loginList">
           <p>尚品汇欢迎您！</p>
           <!-- 没有用户名：未登录 -->
-          <p>
+          <p v-if="!userName">
             <span>请</span>
             <!-- 声明式导航：router-link务必要有to属性 -->
             <router-link to="/login">登录</router-link>
             <router-link class="register" to="/register">免费注册</router-link>
           </p>
           <!-- 登录了 -->
-          <p>
-            <a>username</a>
-            <a class="register">退出登录</a>
+          <p v-else>
+            <a>{{userName}}</a>
+            <a href="javascript:;" class="register" @click="logout">退出登录</a>
           </p>
         </div>
         <div class="typeList">
@@ -58,17 +58,22 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, getCurrentInstance } from 'vue'
+import { ref, getCurrentInstance, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+import { useStore } from 'vuex';
 
 // 引入路由
 const router = useRouter()
 const route = useRoute()
+const store = useStore()
 
 const emitter = getCurrentInstance()?.appContext.config.globalProperties.emitter
 
 // 搜索框内的关键字
 const keyword = ref<string>('')
+
+// 用户的信息
+const userName = computed(() => store.state.user.userInfo.name)
 
 // 跳转搜索函数
 function goSearch(): void {
@@ -85,6 +90,14 @@ function goSearch(): void {
       query: route.query
     })
   }
+}
+
+// 退出登录
+async function logout() {
+  try {
+    await store.dispatch('logout')
+    router.push('/home')
+  } catch (error) {}
 }
 
 // 监听Search中的事件，清除input框的值

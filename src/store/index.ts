@@ -5,9 +5,14 @@ import detail from './detail/detail'
 import cart from './cart/cart'
 import user from './user/user'
 
+interface State {
+  [key: string]: any
+}
+
 
 export default createStore({
-  state: {
+  state: <State>{
+    
   },
   mutations: {
   },

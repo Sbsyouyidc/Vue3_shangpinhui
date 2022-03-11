@@ -84,8 +84,6 @@ async function getCode() {
 
 async function userRegister() {
   try {
-    // const user = {phone: phone.value, code: code.value, password: password.value}
-    // console.log(user)
     await store.dispatch('register', {phone: phone.value, code: code.value, password: password.value})
     router.push('/login')
   } catch (error) {

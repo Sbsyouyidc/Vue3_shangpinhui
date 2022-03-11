@@ -50,7 +50,7 @@
     </div>
     <div class="cart-tool">
       <div class="select-all">
-        <input class="chooseAll" type="checkbox" :checked="checkAll" @change="changeCheckAll($event)">
+        <input class="chooseAll" type="checkbox" :checked="checkAll&&length!==0" @change="changeCheckAll($event)">
         <span>全选</span>
       </div>
       <div class="option">
@@ -74,7 +74,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, computed } from 'vue';
+import { onMounted, computed, ref } from 'vue';
 import { useStore } from 'vuex';
 import { CartInfoList, CartInfo } from '../../store/cart/types';
 import { throttle1 } from '@/utils/throttle';
@@ -87,6 +87,8 @@ onMounted(() => {
 
 // 获取数据
 const cartInfoList = computed<CartInfoList>(() => store.getters.cartInfoList)
+
+let length = computed<number>(() => store.getters.cartInfoList.length)
 
 // 计算购物车总价格
 const totalPrice = computed(() => {

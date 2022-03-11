@@ -81,3 +81,28 @@ export function reqRegister(phone: string, code: string, password: string) {
     }
   }, 'post')
 }
+
+// 登录
+export function reqLogin(phone: string, password: string) {
+  return request({
+    url: '/user/passport/login',
+    data: {
+      phone,
+      password
+    }
+  }, 'post')
+}
+
+// 获取用户信息，使用token
+export function reqUserInfo() {
+  return request({
+    url: '/user/passport/auth/getUserInfo'
+  })
+}
+
+// 退出登录
+export function reqLogout() {
+  return request({
+    url: '/user/passport/logout'
+  })
+}
