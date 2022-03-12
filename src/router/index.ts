@@ -17,10 +17,10 @@ router.beforeEach(async (to, from, next) => {
   // 用户登陆了才会有token
   let token = store.state.user.token
   let name = store.state.user.userInfo.name
-  if (token) {
+  if (token !== '') {
     // 用户已经登陆了，不能再去登陆页面
-    if (to.path === '/login') {
-      next('/home')
+    if (to.path === '/login' || to.path === '/register') {
+      next('/')
     } else {
       // 登录，取得不是login
       // 如果已经有用户名
@@ -33,8 +33,8 @@ router.beforeEach(async (to, from, next) => {
           await store.dispatch('getUserInfo')
           next()
         } catch (error) {
-          // token失效了
-          await store.dispatch('userLogout')
+          // token失效了,重新登陆
+          await store.dispatch('logout')
           next('/login')
         }
       }

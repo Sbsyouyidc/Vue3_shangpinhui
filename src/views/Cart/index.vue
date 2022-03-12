@@ -66,7 +66,8 @@
           <i class="summoney">{{totalPrice}}</i>
         </div>
         <div class="sumbtn">
-          <a class="sum-btn" href="###" target="_blank">结算</a>
+          <!-- <a class="sum-btn" href="javascript:;" @click="router.push('/trade')">结算</a> -->
+          <router-link class="sum-btn" to="/trade">结算</router-link>
         </div>
       </div>
     </div>
@@ -78,8 +79,10 @@ import { onMounted, computed, ref } from 'vue';
 import { useStore } from 'vuex';
 import { CartInfoList, CartInfo } from '../../store/cart/types';
 import { throttle1 } from '@/utils/throttle';
+import { useRouter } from 'vue-router';
 
 const store = useStore()
+const router = useRouter()
 
 onMounted(() => {
   getData()

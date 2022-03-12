@@ -19,9 +19,9 @@ const mutations = {
     state.userInfo = userInfo
   },
   CLEAR(state: State) {
+    removeToken()
     state.token = ''
     state.userInfo = {}
-    removeToken()
   }
 }
 // 获取验证码
@@ -31,15 +31,14 @@ const actions = {
     if (res.code === 200) {
       commit('CODE', res.data)
     } else {
-      return Promise.reject(new Error('fail to get code'))
+      return Promise.reject(res.message)
     }
   },
   // 注册
   async register({commit}, {phone, code, password}) {
     let res = await reqRegister(phone, code, password)
-    console.log(res)
     if (res.code === 200) {
-      console.log(res.data)
+      return res.data
     } else {
       return Promise.reject(res.message)
     }
@@ -52,7 +51,7 @@ const actions = {
       commit('USERLOGIN', res.data.token)
       setToken(res.data.token)
     } else {
-      return res.message
+      return Promise.reject(res.message)
     }
   },
   // 用户信息
@@ -62,7 +61,7 @@ const actions = {
       commit('USERINFO', res.data)
       return 'ok'
     } else {
-      return res.message
+      return Promise.reject(res.message)
     }
   },
   // 退出登录
@@ -71,7 +70,7 @@ const actions = {
     if (res.code === 200) {
       commit('CLEAR')
     } else {
-      return res.message
+      return Promise.reject(res.message)
     }
   }
 }

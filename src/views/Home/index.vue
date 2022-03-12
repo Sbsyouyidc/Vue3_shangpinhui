@@ -22,6 +22,7 @@ const store = useStore()
 
 onMounted(() => {
   store.dispatch('getFloorList')
+  store.dispatch('getUserInfo')
 })
 
 const floorList = computed<Array<any>>(() => store.state.home.floorList)

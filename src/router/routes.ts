@@ -60,6 +60,12 @@ export default [
     meta: {show: false}
   },
   {
+    path: '/trade',
+    name: 'Trade',
+    component: () => import(/* webpackChunkName: trade */ '@/views/Trade/index.vue'),
+    meta: {show: false}
+  },
+  {
     path: '/',
     redirect: '/home'
   }

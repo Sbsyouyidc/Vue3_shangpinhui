@@ -4,6 +4,7 @@ import search from './search/search'
 import detail from './detail/detail'
 import cart from './cart/cart'
 import user from './user/user'
+import trade from './trade/trade'
 
 interface State {
   [key: string]: any
@@ -26,6 +27,7 @@ export default createStore({
     search,
     detail,
     cart,
-    user
+    user,
+    trade
   }
 })

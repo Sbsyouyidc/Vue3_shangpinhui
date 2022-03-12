@@ -106,3 +106,25 @@ export function reqLogout() {
     url: '/user/passport/logout'
   })
 }
+
+// 获取用户地址的信息
+export function reqAddress() {
+  return request({
+    url: '/user/userAddress/auth/findUserAddressList'
+  })
+}
+
+// 获取订单交易页信息
+export function reqOrder() {
+  return request({
+    url: '/order/auth/trade'
+  })
+}
+
+// 提交订单
+export function reqSubmit(tradeNo: string, data: Object) {
+  return request({
+    url: `/order/auth/submitOrder?tradeNo=${tradeNo}`,
+    data
+  }, 'post')
+}
