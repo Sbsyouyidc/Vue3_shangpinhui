@@ -128,3 +128,17 @@ export function reqSubmit(tradeNo: string, data: Object) {
     data
   }, 'post')
 }
+
+// 获取支付信息
+export function reqPayment(orderId: string) {
+  return request({
+    url: `/payment/weixin/createNative/${orderId}`
+  })
+}
+
+// 获取支付状态
+export function reqPayStatus(orderId: string) {
+  return request({
+    url: `/payment/weixin/queryPayStatus/${orderId}`
+  })
+}

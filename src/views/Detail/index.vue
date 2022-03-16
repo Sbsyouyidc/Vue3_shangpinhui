@@ -356,7 +356,7 @@
 <script lang="ts" setup>
 import { computed, onMounted, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { mapGetters, useStore } from "vuex";
+import { useStore } from "vuex";
 import ImageList from "./ImageList/ImageList.vue";
 import Zoom from "./Zoom/Zoom.vue";
 import { CategoryView, SkuInfo, SpuSaleAttrValue } from '../../store/detail/types';

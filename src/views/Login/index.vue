@@ -66,7 +66,7 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, toRefs } from 'vue';
+import { reactive } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 

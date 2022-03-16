@@ -19,7 +19,7 @@ export default [
   {
     path: '/login',
     name: 'Login',
-    component: () => import(/* webpackChunkName: "login" */ '../views/Search/index.vue'),
+    component: () => import(/* webpackChunkName: "login" */ '../views/Login/index.vue'),
     meta: {show: false}
   },
   {
@@ -38,31 +38,31 @@ export default [
   {
     path: '/addCartSuccess',
     name: 'AddCartSuccess',
-    component: () => import(/* webpackChunkNane: addCartSuccess */ '@/views/AddCartSuccess/index.vue'),
+    component: () => import(/* webpackChunkName: "addCartSuccess" */ '@/views/AddCartSuccess/index.vue'),
     meta: {show: false}
   },
   {
     path: '/cart',
     name: 'Cart',
-    component: () => import(/* webpackChunkName: cart */ '@/views/Cart/index.vue'),
-    meta: {show: false}
-  },
-  {
-    path: '/login',
-    name: 'Login',
-    component: () => import(/* webpackChunkName: login */ '@/views/Login/index.vue'),
-    meta: {show: false}
-  },
-  {
-    path: '/register',
-    name: 'Register',
-    component: () => import(/* webpackChunkName: regiter */ '@/views/Register/index.vue'),
+    component: () => import(/* webpackChunkName: "cart" */ '@/views/Cart/index.vue'),
     meta: {show: false}
   },
   {
     path: '/trade',
     name: 'Trade',
-    component: () => import(/* webpackChunkName: trade */ '@/views/Trade/index.vue'),
+    component: () => import(/* webpackChunkName: "trade" */ '@/views/Trade/index.vue'),
+    meta: {show: false}
+  },
+  {
+    path: '/pay',
+    name: 'Pay',
+    component: () => import(/* webpackChunkName: "pay" */ '@/views/Pay/index.vue'),
+    meta: {show: false}
+  },
+  {
+    path: '/paySuccess',
+    name: 'PaySuccess',
+    component: () => import(/* webpackChunkName: "paySuccess" */ '@/views/PaySuccess/index.vue'),
     meta: {show: false}
   },
   {

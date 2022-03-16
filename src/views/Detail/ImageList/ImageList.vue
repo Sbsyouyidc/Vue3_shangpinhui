@@ -24,7 +24,7 @@
 </template>
 
 <script lang="ts" setup>
-import { defineProps, computed, ref, getCurrentInstance } from 'vue';
+import { computed, ref, getCurrentInstance } from 'vue';
 import { Navigation, A11y } from 'swiper'
 import {Swiper, SwiperSlide} from 'swiper/vue/swiper-vue.js'
 // import "swiper/swiper-bundle.min.css"
@@ -78,18 +78,17 @@ function changeCurrentIndex(index: number) {
 
   // 使用/deep/来对less scoped 进行穿透
 
-  /deep/.swiper-button-next {
+:deep(.swiper-button-next) {
     left: auto;
     right: 10px;
   }
 
-  /deep/.swiper-button-prev {
+  :deep(.swiper-button-prev) {
     left: 0;
     right: auto;
   }
 
-  /deep/.swiper-button-next,
-  /deep/.swiper-button-prev {
+  :deep(.swiper-button-next, .swiper-button-prev) {
     box-sizing: border-box;
     width: 12px;
     height: 56px;

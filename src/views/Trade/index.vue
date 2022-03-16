@@ -82,21 +82,28 @@
       </div>
     </div>
     <div class="sub clearFix">
-      <a class="subBtn">提交订单</a>
+      <a class="subBtn" @click="submitOrder">提交订单</a>
     </div>
   </div>
 </template>
 
 
 <script lang="ts" setup>
-import { computed, onMounted, ref } from 'vue';
+import { computed, getCurrentInstance, onMounted, ref } from 'vue';
 import { useStore } from 'vuex';
 import { Address, Order } from '@/store/trade/types' 
+import { useRouter } from 'vue-router';
 
 const store = useStore()
+const router = useRouter()
+
+const API = getCurrentInstance()?.appContext.config.globalProperties.$API
 
 // 留言信息
 let message = ref('')
+
+// 订单号
+let orderId = ref('')
 
 onMounted(() => {
   store.dispatch('getUserAddress')
@@ -111,10 +118,34 @@ const defaultAddress = computed(() => {
   return addressList.value.find((item: Address) => item.isDefault == '1') || {}
 })
 
+// 改变默认地址
 function changeDefault(address: Address) {
   // 全部的isDefault为0
   addressList.value.forEach((item: Address) => item.isDefault = '0')
   address.isDefault = '1'
+}
+
+// 提交订单
+async function submitOrder() {
+  let tradeNo = order.value.tradeNo!
+  let data = {
+    "consignee": defaultAddress.value.consignee, // 收件人名字
+    "consigneeTel": defaultAddress.value.phoneNum, // 收件人手机号
+    "deliveryAddress": defaultAddress.value.fullAddress, // 收件人地址
+    "paymentWay": "ONLINE", // 收件人付款方式
+    "orderComment": message.value, // 留言信息
+    "orderDetailList": order.value.detailArrayList // 商品清单
+  }
+  let res = await API.reqSubmit(tradeNo, data)
+  // 提交成功
+  if (res.code === 200) {
+    orderId.value = res.data
+    // 跳到支付页面
+    router.push('/pay?orderId='+orderId.value)
+  } else {
+    // 提交订单失败
+    alert(res.message)
+  }
 }
 
 </script>
