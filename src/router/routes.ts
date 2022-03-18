@@ -66,6 +66,22 @@ export default [
     meta: {show: false}
   },
   {
+    path: '/center',
+    name: 'Center',
+    component: () => import(/* webpackChunkName: "center" */ '@/views/Center/index.vue'),
+    meta: {show: false},
+    children: [
+      {
+        path: 'myOrder',
+        component: () => import(/* webpackChunkName: "myOrder" */ '@/views/Center/MyOrder/index.vue')
+      },
+      {
+        path: 'groupOrder',
+        component: () => import(/* webpackChunkName: "groupOrder" */ '@/views/Center/GroupOrder/index.vue')
+      }
+    ]
+  },
+  {
     path: '/',
     redirect: '/home'
   }

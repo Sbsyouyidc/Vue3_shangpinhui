@@ -142,3 +142,10 @@ export function reqPayStatus(orderId: string) {
     url: `/payment/weixin/queryPayStatus/${orderId}`
   })
 }
+
+// 获取个人中心的数据
+export function reqMyOrder(page: string, limit: string) {
+  return request({
+    url: `/order/auth/${page}/${limit}`
+  })
+}
