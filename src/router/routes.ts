@@ -51,13 +51,29 @@ export default [
     path: '/trade',
     name: 'Trade',
     component: () => import(/* webpackChunkName: "trade" */ '@/views/Trade/index.vue'),
-    meta: {show: false}
+    meta: {show: false},
+    beforeEnter: (to, from, next) => {
+      // 要去交易页面，必须是从购物车来的
+      if (from.path === '/cart') {
+        next()
+      } else {
+        // 否则停留在当前页面
+        next(false)
+      }
+    }
   },
   {
     path: '/pay',
     name: 'Pay',
     component: () => import(/* webpackChunkName: "pay" */ '@/views/Pay/index.vue'),
-    meta: {show: false}
+    meta: {show: false},
+    beforeEnter: (to, from, next) => {
+      if (from.path === '/trade') {
+        next()
+      } else {
+        next(false)
+      }
+    }
   },
   {
     path: '/paySuccess',

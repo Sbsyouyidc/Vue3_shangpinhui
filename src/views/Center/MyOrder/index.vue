@@ -56,7 +56,6 @@
                   <li>
                     <a href="mycomment.html" target="_blank">评价|晒单</a>
                   </li>
-
                 </ul>
               </td>
             </tr>

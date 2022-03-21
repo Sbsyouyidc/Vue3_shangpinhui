@@ -11,6 +11,7 @@ import mitt from 'mitt'
 import * as API from '@/api'
 import 'element-plus/theme-chalk/el-message.css'
 import 'element-plus/dist/index.css'
+import VueLazyload from 'vue3-lazyload';
 
 const emitter = mitt()
 
@@ -21,6 +22,14 @@ app.config.globalProperties.emitter = emitter
 
 // 全局注册方法，globalProperties 替代 proptotype
 app.config.globalProperties.$API = API
+
+// 懒加载
+app.use(VueLazyload, {
+  // 图片加载时的默认图片
+  loading: require('./assets/images/loading.png'),
+  // 图片加载出错时的图片
+  error: require('./assets/images/error.png')
+})
 
 
 // 全局组件

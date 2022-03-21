@@ -6,31 +6,27 @@
         <span class="go">我有账号，去 <a href="login.html" target="_blank">登陆</a>
         </span>
       </h3>
-      <div class="content">
+      <div class="content" :class="{ error: v$.phone.$errors.length }">
         <label>手机号:</label>
-        <input type="text" placeholder="请输入你的手机号" v-model="phone">
-        <span class="error-msg">错误提示信息</span>
+        <input name="phone" type="text" placeholder="请输入你的手机号" v-model="phone">
+        <div class="error-msg" v-for="error of v$.phone.$errors" :key="error.$uid"><span>{{error.$message}}</span></div>
       </div>
       <div class="content">
         <label>验证码:</label>
         <input type="text" placeholder="请输入验证码" v-model="code">
         <button style="width: 100px; height: 38px;" @click="getCode">获取验证码</button>
-        <span class="error-msg">错误提示信息</span>
       </div>
       <div class="content">
         <label>登录密码:</label>
         <input type="password" placeholder="请输入你的登录密码" v-model="password">
-        <span class="error-msg">错误提示信息</span>
       </div>
       <div class="content">
         <label>确认密码:</label>
         <input type="password" placeholder="请输入确认密码" v-model="passwordConfirm">
-        <span class="error-msg">错误提示信息</span>
       </div>
       <div class="controls">
         <input name="m1" type="checkbox" :checked="agree">
         <span>同意协议并注册《尚品汇用户协议》</span>
-        <span class="error-msg">错误提示信息</span>
       </div>
       <div class="btn">
         <button @click="userRegister">完成注册</button>
@@ -57,9 +53,11 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref, toRefs } from 'vue';
+import { computed, reactive, ref, toRefs } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
+import { useVuelidate } from '@vuelidate/core'
+import { minLength, required } from '@vuelidate/validators'
 
 const user = reactive({
   phone: '',
@@ -68,6 +66,21 @@ const user = reactive({
   passwordConfirm: '',
   agree: true
 })
+
+const min = ref(6)
+
+const rules: any = computed(() => ({
+  phone: {
+    required: required,
+    minLength: minLength(min.value)
+  },
+  code: {required},
+  password: {required},
+  passwordConfirm: {required},
+  agree: {required}
+}))
+
+const v$ = useVuelidate(rules, user)
 
 const router = useRouter()
 

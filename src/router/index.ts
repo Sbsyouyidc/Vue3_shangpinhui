@@ -40,7 +40,13 @@ router.beforeEach(async (to, from, next) => {
       }
     }
   } else {
-    next()
+    // 未登录：不能去交易相关，不能去支付相关，不能去个人中心
+    let toPath = to.path
+    if (toPath.indexOf('/trade') !== -1 || to.path.indexOf('/pay') !== -1) {
+      next('/login')
+    } else {
+      next()
+    }
   }
 })
 

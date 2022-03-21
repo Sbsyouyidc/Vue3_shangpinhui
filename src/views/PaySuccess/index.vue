@@ -19,6 +19,23 @@
 
 
 <script lang="ts" setup>
+import { onBeforeRouteLeave, onBeforeRouteUpdate, useRoute, useRouter } from 'vue-router';
+
+
+// const Router = useRouter()
+// const Route = useRoute()
+
+// onBeforeRouteUpdate((to, from) => {
+//   if (from.path === '/pay') {
+//     next()
+//   } else {
+//     next(false)
+//   }
+// })
+
+// onBeforeRouteLeave((to, from) => {
+
+// })
 
 </script>
 

@@ -11,7 +11,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, getCurrentInstance, onMounted, ref, reactive, watch } from 'vue';
+import { computed, getCurrentInstance, onMounted, ref } from 'vue';
 import { SkuImage } from '@/store/detail/types';
 
 const emitter = getCurrentInstance()?.appContext.config.globalProperties.emitter
