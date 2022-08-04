@@ -25,7 +25,7 @@ export default function(option?: Object, method: Method = 'get') {
   return new Promise<responseData>((resolve, reject) => {
 
     const instance = axios.create({
-      baseURL: 'http://39.98.123.211/api',
+      baseURL: 'http://gmall-h5-api.atguigu.cn/api',
       timeout: 5000,
       method: method
     })
